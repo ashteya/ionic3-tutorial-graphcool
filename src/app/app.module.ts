@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 
 import { GraphQLModule } from './graphql.module';
 import { ShoppingListProvider } from '../providers/shopping-list/shopping-list';
@@ -15,8 +14,7 @@ import { CategoriesPageModule } from '../pages/categories/categories.module';
 
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -28,8 +26,7 @@ import { CategoriesPageModule } from '../pages/categories/categories.module';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage
+    MyApp
   ],
   providers: [
     StatusBar,

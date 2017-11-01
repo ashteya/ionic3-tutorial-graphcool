@@ -1,26 +1,11 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+# ionic3-tutorial-graphcool
+This code is part of a tutorial on how to use Apollo Client with a Graphcool backend in Ionic 3 apps.
 
-## How to use this template
+Read the tutorial here: [How To Build An Ionic App With A Graphcool Backend](https://gonehybrid.com/how-to-build-an-ionic-app-with-a-graphcool-backend-part-1/)
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
+For more tutorials on Ionic, check out my blog [Gone Hybrid](http://gonehybrid.com).
 
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
+# How to run the app
+After cloning the repo, run `npm install` followed by the `ionic serve` command.
 
-### With the Ionic CLI:
-
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
-
-```bash
-$ sudo npm install -g ionic cordova
-$ ionic start myBlank blank
-```
-
-Then, to run it, cd into `myBlank` and run:
-
-```bash
-$ ionic cordova platform add ios
-$ ionic cordova run ios
-```
-
-Substitute ios for android if not on a Mac.
-
+Make sure you have all the tools installed, see [installation guide](http://gonehybrid.com/build-your-first-mobile-app-with-ionic-2-angular-2-part-2/).

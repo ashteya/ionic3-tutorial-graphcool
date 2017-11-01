@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Items</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list inset>
+    <ion-item *ngFor="let item of items$ | async">
+      <ion-label>{{ item.name }}</ion-label>
+      <ion-checkbox [(ngModel)]="item.done"></ion-checkbox>
+      <ion-badge item-end>{{ item.quantity }}</ion-badge>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Categories</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list inset>
+    <button ion-item *ngFor="let category of categories$ | async" (click)="showItems(category)">
+      <ion-icon name="cart" item-end></ion-icon>  
+      <ion-label>{{ category.name }}</ion-label>
+    </button>
+  </ion-list>
+</ion-content>

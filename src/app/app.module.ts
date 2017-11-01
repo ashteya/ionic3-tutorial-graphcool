@@ -7,6 +7,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
+import { GraphQLModule } from './graphql.module';
+import { ShoppingListProvider } from '../providers/shopping-list/shopping-list';
+import { TabsPageModule } from '../pages/tabs/tabs.module';
+import { ItemsPageModule } from '../pages/items/items.module';
+import { CategoriesPageModule } from '../pages/categories/categories.module';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -14,7 +20,11 @@ import { HomePage } from '../pages/home/home';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    GraphQLModule,
+    TabsPageModule,
+    ItemsPageModule,
+    CategoriesPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -24,7 +34,8 @@ import { HomePage } from '../pages/home/home';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ShoppingListProvider
   ]
 })
 export class AppModule {}

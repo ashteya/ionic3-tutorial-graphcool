@@ -1,0 +1,24 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>New Item</ion-title>
+    <ion-buttons end>
+        <button ion-button (click)="save()">Save</button>
+      </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label>Name</ion-label>
+      <ion-input [(ngModel)]="name" type="text" text-right></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Category</ion-label>
+      <ion-select [(ngModel)]="categoryId">
+        <ion-option *ngFor="let category of categories$ | async" [value]="category.id">{{ category.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+</ion-content>

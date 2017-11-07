@@ -11,6 +11,7 @@ import { ShoppingListProvider } from '../providers/shopping-list/shopping-list';
 import { TabsPageModule } from '../pages/tabs/tabs.module';
 import { ItemsPageModule } from '../pages/items/items.module';
 import { CategoriesPageModule } from '../pages/categories/categories.module';
+import { NewItemPageModule } from '../pages/new-item/new-item.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CategoriesPageModule } from '../pages/categories/categories.module';
     GraphQLModule,
     TabsPageModule,
     ItemsPageModule,
-    CategoriesPageModule
+    CategoriesPageModule,
+    NewItemPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

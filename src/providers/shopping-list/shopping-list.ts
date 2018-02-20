@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 
 import { Observable } from 'rxjs/Observable';
 
-import { Apollo } from 'apollo-angular';
+import { Apollo, QueryRef } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 const queryAllItems = gql`
@@ -46,9 +46,9 @@ mutation($name: String!, $categoryId: ID) {
     name: $name,
     categoryId: $categoryId
   ) {
-    id,
-    name,
-    done,
+    id
+    name
+    done
     category {
       id
     }
@@ -64,6 +64,32 @@ mutation($id: ID!) {
 }
 `;
 
+const subscription = gql`
+subscription newItems {
+  Item(
+    filter: {
+      mutation_in: [CREATED, UPDATED, DELETED]
+    }
+  ) {
+    mutation
+    node {
+      id
+      name
+      done
+      category {
+        id
+      }
+      createdAt
+      updatedAt
+    }
+    previousValues {
+      id
+    }
+  }
+}
+`;
+
+
 @Injectable()
 export class ShoppingListProvider {
 
@@ -73,6 +99,8 @@ export class ShoppingListProvider {
     const queryWatcher = this.apollo.watchQuery<any>({
       query: queryAllItems
     });
+
+    this.subscribeToChanges(queryWatcher);
 
     return queryWatcher.valueChanges
       .map(result => result.data.allItems);;
@@ -100,8 +128,8 @@ export class ShoppingListProvider {
         done: !item.done
       }
     })
-      .subscribe(response => console.log(response.data),
-      error => console.log('Mutation Error:', error));
+    .subscribe(response => console.log(response.data),
+               error => console.log('Mutation Error:', error));
   }
 
   createItem(name, categoryId): void {
@@ -110,17 +138,6 @@ export class ShoppingListProvider {
       variables: {
         name: name,
         categoryId: categoryId
-      },
-      update: (proxy, { data: { createItem } }) => {
-
-        // Read the data from the cache for the allItems query
-        const data: any = proxy.readQuery({ query: queryAllItems });
-
-        // Add the new item to the data
-        data.allItems.push(createItem);
-
-        // Write the data back to the cache for the allItems query
-        proxy.writeQuery({ query: queryAllItems, data });
       }
     })
     .subscribe(response => console.log(response.data),
@@ -132,19 +149,30 @@ export class ShoppingListProvider {
       mutation: mutationDeleteItem,
       variables: {
         id: item.id
-      },
-      update: (proxy, { data: { deleteItem } }) => {
-        // Read the data from the cache for the allItems query
-        let data: any = proxy.readQuery({ query: queryAllItems });
-
-        // Remove the item from the data
-        data.allItems = data.allItems.filter(i => i.id !== deleteItem.id);
-
-        // Write the data back to the cache for the allItems query
-        proxy.writeQuery({ query: queryAllItems, data });
       }
     })
     .subscribe(response => console.log(response.data),
-                error => console.log('Mutation Error:', error));
+               error => console.log('Mutation Error:', error));
+  }
+
+  private subscribeToChanges(query: QueryRef<any>) {
+    query.subscribeToMore({
+      document: subscription,
+      updateQuery: (prev: any, { subscriptionData }) => {
+
+        const item = (subscriptionData as any).Item;
+
+        if (item.mutation == 'CREATED') {
+          return Object.assign({}, prev, {
+            allItems: prev.allItems.concat(item.node)
+          });
+        }
+        else if (item.mutation == 'DELETED') {
+          return Object.assign({}, prev, {
+            allItems: prev.allItems.filter(i => i.id !== item.previousValues.id)
+          });
+        }
+      }
+    });    
   }
 }
